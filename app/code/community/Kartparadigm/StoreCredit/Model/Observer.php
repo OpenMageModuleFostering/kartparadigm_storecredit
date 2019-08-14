@@ -27,14 +27,14 @@ if(isset($val1))
 {
 $amt1 = array();
 $amt1 = Mage::getSingleton('checkout/session')->getCredits();
-$amt = $amt1['totalCredits']
+$amt = $amt1['totalCredits'];
 $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
 }
 else{
 $amt1 = array();
  $quote = Mage::getModel('checkout/cart')->getQuote();
 $amt1 = Mage::getSingleton('checkout/session')->getCredits();
-$amt = $amt1['discountCredits']
+$amt = $amt1['discountCredits'];
 }
   $isvirtual=0;
     foreach($quote->getAllItems() as $item){
@@ -320,7 +320,9 @@ if (Mage::helper('kartparadigm_storecredit')->getRefundDeductConfig())
 
 }
 //end
-if(Mage::getSingleton('adminhtml/session')->getTotal()['status'] == 1)
+$status = array();
+$status = Mage::getSingleton('adminhtml/session')->getTotal(); 
+if($status['status'] == 1)
             {  
 
  $val = array();    

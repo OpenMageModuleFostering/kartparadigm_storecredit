@@ -110,16 +110,17 @@ $arr['sname'] = $data['sname'];
 $users = mage::getModel('customer/customer')->getCollection()
            ->addAttributeToSelect('email');
 
-foreach ($users as $user)
+foreach ($users as $user1)
   {
+  $user = $user1->getData();
 
-if($user->getData()['email'] == $arr['receiver_email'])
+if($user['email'] == $arr['receiver_email'])
  {
 
-$collection = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('c_id',$user->getData()['entity_id'])->addFieldToFilter('website1','Main Website')->getLastItem();
+$collection = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('c_id',$user['entity_id'])->addFieldToFilter('website1','Main Website')->getLastItem();
 
 /*  ------------------------if the customer exists add credits to his account -------------------------------------- */
-     $arr1['c_id'] = $user->getData()['entity_id'];
+     $arr1['c_id'] = $user['entity_id'];
      $arr1['website1'] = "Main Website";
      $arr1['action_credits'] = $data['credits'];
      $arr1['total_credits'] = $collection->getTotalCredits() + $data['credits'];
@@ -186,7 +187,7 @@ $email = Mage::getStoreConfig('trans_email/'.$group.'/email');
     $emailTemplateVariables['var3'] = $data['sname'];
     $emailTemplateVariables['var4'] = $nowdate;
     $emailTemplateVariables['var5'] = $data['message'];
-    $emailTemplateVariables['var8'] = "http://localhost/jaypore/index.php/customer/account/login/";
+    $emailTemplateVariables['var8'] = Mage::getBaseUrl();
 
    $emailTemplate->getProcessedTemplate($emailTemplateVariables);
 //Mage::log($name);

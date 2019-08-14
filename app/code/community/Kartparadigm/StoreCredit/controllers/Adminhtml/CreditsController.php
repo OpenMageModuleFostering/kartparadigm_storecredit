@@ -186,7 +186,7 @@ public function unselectAction()
 $array2 = Mage::helper('kartparadigm_storecredit')->getCreditRates();
  $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
 $total = $quote->getBaseGrandTotal();
-$amt1 = array()
+$amt1 = array();
 $amt1 = Mage::getSingleton('checkout/session')->getCredits(); 
 $amt = $amt1['discountCredits'];
 $discountAmount;
