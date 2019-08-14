@@ -1,0 +1,9 @@
+<?php
+
+$var = $this->getRequest()->getParams();
+
+$table = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('t_id',$this->getRequest()->getParam('id'));
+foreach($table as $t)
+var_dump($t);
+
+?>

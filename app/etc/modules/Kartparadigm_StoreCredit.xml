@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Kartparadigm_StoreCredit>
+            <active>true</active>
+            <codePool>community</codePool>
+             <depends>         
+                  <Mage_Core/>
+                  <Mage_CatalogRule/> 
+             </depends>
+          </Kartparadigm_StoreCredit>
+    </modules>
+</config>

@@ -1,0 +1,65 @@
+<style>
+table, td, th {
+    border: 1px solid #CCC;
+}
+
+th {
+    background-color: #F6F6F6;
+    color: #000;
+}
+td {
+    padding: 15px;
+}
+</style>
+
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $collection = $this->getCollection(); ?>
+<div class="page-title">
+    <h1><?php echo $this->__('Transactions history ') ?></h1>
+</div>
+<?php echo $this->getPagerHtml(); ?>
+<?php if($collection->getSize()): ?>
+<table class="data-table" id="my-custom-table">
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th><?php echo $this->__('ACTION') ?></th>
+            <th><?php echo $this->__('STORE CREDITS APPLAID') ?></th>
+            <th><?php echo $this->__('CURRENT STORE CREDITS') ?></th>
+            <th><?php echo $this->__('ACTION DATE') ?></th>
+             <th><?php echo $this->__('MESSAGE') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $_odd = ''; ?>
+        <?php foreach ($collection as $_obj): ?>
+        <tr>
+            
+            <td><?php echo $_obj->getAction(); ?></td>
+            <td><?php echo $_obj->getActionCredits(); ?></td>
+            <td><?php echo $_obj->getTotalCredits(); ?></td>
+            <td><?php echo $_obj->getActionDate(); ?></td>
+<?php  $order = Mage::getModel('sales/order')->load($_obj->getOrderId(), 'increment_id');
+                   $orderid = $order->getId();
+                   if(is_numeric($orderid))
+                   $url= Mage::getBaseUrl().'sales/order/view/order_id/'.$orderid;
+                   else
+                   $url="#"; ?>
+            <td> <?php echo $_obj->getCustomMsg() ;  if($_obj->getOrderId()) echo "<br/><a  href = $url style='align:center;color: #1E7EC8;'>View Order</div>" ;?> </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('my-custom-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo $this->__('The collection is empty.'); ?></p>
+<?php endif ?>
+
+

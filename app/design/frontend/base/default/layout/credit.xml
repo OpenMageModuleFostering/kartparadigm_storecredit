@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+<customer_account translate="label">
+        <reference name="customer_account_navigation">
+            <action method="addLink" ifconfig="mycustom_section/mycustom_group2/field1"><name>Credits Info</name><path>storecredit</path><label>My Credits</label></action>
+        </reference>
+    </customer_account>
+
+<kartparadigm_storecredit_index_index>
+<reference name="content">
+<block type="core/template" name="credits" as="credits" template="kartparadigm/totalcredits.phtml" />
+<block type="kartparadigm_storecredit/collection" name="mytransactions" as="mytransactions" template="kartparadigm/mytransactions.phtml" />
+<block type="core/template" name="sendcreditstofriend" as="sendcreditstofriend" template="kartparadigm/sendcreditsform.phtml" />
+<block type="kartparadigm_storecredit/credit" name="rulecredits" as="rulecredits" template="kartparadigm/rulecredits.phtml" />
+</reference>
+</kartparadigm_storecredit_index_index>
+<checkout_onepage_index>
+          <reference name="checkout.onepage.payment">
+             <block type="core/template" name="storecredit" as="storecredit" template="kartparadigm/payment.phtml"/>
+           </reference>
+</checkout_onepage_index>
+<checkout_cart_index>
+    <reference name="checkout.cart">
+      <block type="core/text_list" name="coupon.and.discount" as="coupon">
+        <action method="insert">
+          <block>checkout.cart.coupon</block>
+        </action>
+        <block type="core/template" name="discountblock" template="kartparadigm/mycredits.phtml" after="checkout.cart.coupon" />
+      </block>    
+ </reference>
+  </checkout_cart_index>
+
+ <checkout_onepage_paymentmethod>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_payment_methods" name="root" output="toHtml" template="checkout/onepage/payment/methods.phtml">
+            <action method="setMethodFormTemplate" ifconfig="mycustom_section/mycustom_group2/field1"><method>purchaseorder</method><template>kartparadigm/payment.phtml</template></action>
+            <block type="core/template" name="checkout.onepage.payment.methods.scripts" as="scripts" />
+            <block type="core/template" name="checkout.onepage.payment.methods.additional" as="additional" />
+        </block>
+    </checkout_onepage_paymentmethod> 
+
+<catalog_product_view>
+ <reference name="product.info.extrahint"> 
+  <block type="kartparadigm_storecredit/credit" name="pcredits" as="pcredits" template="kartparadigm/product.phtml" />
+ </reference>
+ <reference name="">
+
+
+ </reference>
+</catalog_product_view>
+
+
+</layout>

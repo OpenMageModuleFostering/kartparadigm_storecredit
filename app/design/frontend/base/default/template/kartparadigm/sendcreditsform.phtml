@@ -1,0 +1,67 @@
+<div class="my-account"><div class="page-title" style="margin: 20px 0px 25px;">
+    <h1>Send Credits To Friend</h1>
+</div>
+<div style="font-size: 20px; color: #008000"><?php
+$msg = Mage::getSingleton("core/session")->getMsg();
+if(isset($msg)){
+ echo $msg;
+Mage::getSingleton("core/session")->unsMsg(); 
+}
+?>
+ </div>
+<form action="<?php echo $this->getBaseUrl()?>storecredit/index/sendcredits" method="post" id="form-validate" autocomplete="off">
+    <div class="fieldset">
+        <h2 class="legend">Receiver Information</h2>
+        <ul class="form-list">
+            <li class="fields">
+                <div class="customer-name">
+    <div class="field name-name">
+        <label for="name" class="required"><em>*</em>Name</label>
+        <div class="input-box">
+            <input id="name" name="name" value="" title="Name" maxlength="255" class="input-text required-entry" type="text">
+        </div>
+    </div>
+</div>
+            </li>
+            <li>
+                <label for="email" class="required"><em>*</em>Email Address</label>
+                <div class="input-box">
+                    <input name="email" id="email" value="" title="Email Address" class="input-text required-entry validate-email" type="text">
+                </div>
+            </li>
+              <li>
+                <label for="credits" class="required"><em>*</em>Enter Credits</label>
+                <div class="input-box">
+                    <input name="credits" id="credits" value="" title="Email Address" class="input-text required-entry" type="number">
+                </div>
+            </li>
+            <li>
+                <label for="message" class="required"><em>*</em>Write Message</label>
+                <div class="input-box">
+                    <textarea name="message" id="message" value="" title="Message" class="input-text required-entry"></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+<?php
+ if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+ $customerData = Mage::getSingleton('customer/session')->getCustomer();
+ $id = $customerData->getId();
+$name = $customerData->getName();
+  ?>
+<input type="hidden" value="<?php echo $id ?>" name="id" id="id" />
+<input type="hidden" value="<?php echo $name ?>" name="sname" id="sname" />
+<?php } ?>
+    <div class="buttons-set">
+        <p class="required">* Required Fields</p>
+        <button type="submit" title="Send" class="button"><span><span>Send</span></span></button>
+    </div>
+
+</form>
+
+
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+//]]>
+</script></div>

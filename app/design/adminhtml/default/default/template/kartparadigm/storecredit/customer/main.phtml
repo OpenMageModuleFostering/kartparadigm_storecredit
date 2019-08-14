@@ -1,0 +1,133 @@
+<!-- -----------------Enable Or Disable The Storeview Select Option -------------------------------------------------- -->
+<script type="text/javascript">
+        function OnChangeCheckbox (checkbox) {
+            if (checkbox.checked) {
+                document.getElementById("storeview1").disabled = false;
+            }
+            else {
+                document.getElementById("storeview1").disabled = true;
+            }
+        }
+    </script>
+<!-- -------------------------------------Store Credit Balance Section------------------------------------------------- -->
+
+
+<div class="entry-edit">
+<div class="entry-edit-head">
+<h4 class="icon-head head-customer-view"><?php echo
+$this->__('Store Credit Balance') ?></h4>
+</div>
+<?php //echo $this->getChildHtml('credits_list1');
+?>
+<?php 
+$resource = Mage::getSingleton('core/resource');
+$readConnection = $resource->getConnection('core_read');
+$id =  $this->getRequest()->getParam('id');
+$query = 'select website1, total_credits from kartparadigm_storecredit_creditinfo where t_id in (SELECT MAX(t_id) FROM kartparadigm_storecredit_creditinfo where c_id = '. $id .' GROUP BY website1)';
+$results = $readConnection->fetchAll($query);
+//var_dump($results);
+?>
+<table class="form-list" border='1'>
+<tr> 
+    <th class="value"> Website </th>
+    <th class="value"> Store Credits </th>
+ </tr>
+<?php foreach($results as $key => $val):?>
+
+<tr>
+<td class="value"><?php echo $val['website1']; ?></td>
+<td class="value"><?php echo $val['total_credits'];?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>
+
+
+<!-- ---------------------------------------Update Balance Section------------------------------------------------------ -->
+<?php
+$site = Mage::getResourceModel('core/website_collection');
+//foreach($site as $s){
+//echo $s['name']; 
+//echo "<br/>";
+//}
+?>
+<div class="entry-edit">
+<div class="entry-edit-head">
+<h4 class="icon-head head-customer-view"><?php echo
+$this->__('Sending Credits Information') ?></h4> </div>
+<?php   
+$col1 = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('c_id',$this->getRequest()->getParam('id'))->getLastItem();
+?>
+<table class="form-list" cellspacing="0">
+            <tbody>
+  <tr>
+      <td class="label"><label for="website1">Website</label></td>
+      <td class="value"><select id="website1" name="website1"> 
+                             <?php foreach($site as $s): ?>
+                               <option value="<?php  echo $s['name'] ?>"><?php  echo $s['name'] ?></option>
+                             <?php endforeach; ?> 
+                          </select>
+      </td>
+</tr>
+              
+<tr>
+        <td class="label"><label for="credit_value">Update Balance</label></td>
+    <td class="value">
+        <input id="credit_value" name="credit_value" value="" title="Add or subtract  a credit value" class=" input-text" type="text">                    <!--<p class="note" id="note_credit_value"><span>You can add or subtract an amount from customer’s balance by entering a number. For e.g, enter “99” to add $99 and “-99” to subtract $99</span></p> -->
+            </td>
+    </tr>
+<tr>
+      <td class="label"><label for="notification"> Notify Customer by Email </label> </td>
+      <td class="value"><input type="checkbox" id="notification" name="notification"  onclick="OnChangeCheckbox (this)"/> </td>
+
+</tr>
+<tr>
+      <td class="label"><label for="storeview1"> Send Email Notification From the Following Store View </label> </td>
+      <td class="value"><select name="storeview1" id="storeview1" disabled='true'>
+<?php
+
+$site = Mage::app()->getWebsites();
+foreach($site as $s){ ?>
+<optgroup label="<?php echo $s['name'];?>">
+<?php
+$allStores = $s->getStoreIds();
+foreach ($allStores as $_eachStoreId => $val) 
+{
+//$_storeCode = Mage::app()->getStore($_eachStoreId)->getCode();
+$_storeName = Mage::app()->getStore($_eachStoreId)->getName();
+//$_storeId = Mage::app()->getStore($_eachStoreId)->getId();
+?>
+<option value="<?php echo $_storeName; ?>"><?php echo $_storeName; ?></option>
+<?php
+}
+
+
+}
+?>
+</select> </td>
+
+</tr>
+
+<tr>      
+  <td class="label"><label for="description">Comment</label></td>
+    <td class="value">
+        <textarea id="description" name="description" title="Comment" class=" input-text" /> </textarea> </td>
+    </tr>
+            </tbody>
+        </table>
+                    
+
+</div>
+
+<!-- -----------------------------------------Balance History Section  ----------------------------------------------         -->
+
+<div class="entry-edit">
+<div class="entry-edit-head">
+<h4 class="icon-head head-customer-view"><?php echo
+$this->__('Transaction History') ?></h4>
+</div>
+<?php echo $this->getChildHtml('credits_list');
+?>
+</div>
+
+

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<config>
+<menu>
+<kartparadigm_storecredit module="kartparadigm_storecredit">
+<title>Store Credit</title>
+<sort_order>71</sort_order>
+<children>
+<settings module="kartparadigm_storecredit">
+<title>Settings</title>
+<sort_order>0</sort_order>
+<action>adminhtml/credits/settings</action>
+</settings>
+<customers module="kartparadigm_storecredit">
+<title>Manage Customer Credits</title>
+<sort_order>0</sort_order>
+<action>adminhtml/credits/customer</action>
+</customers>
+<transactions module="kartparadigm_storecredit">
+<title>Manage Transactions</title>
+<sort_order>0</sort_order>
+<action>adminhtml/credits/index</action>
+</transactions>
+</children>
+</kartparadigm_storecredit>
+
+</menu>
+
+<acl>
+<resources>
+<admin>
+<children>
+<storecredit translate="title" module="kartparadigm_storecredit">
+<title>Credits</title>
+<sort_order>300</sort_order>
+<children>
+<transactions translate="title" module="kartparadigm_storecredit">
+<title>Credits</title>
+<sort_order>0</sort_order>
+</transactions>
+<customers translate="title" module="kartparadigm_storecredit">
+<title>Credits</title>
+<sort_order>0</sort_order>
+</customers>
+<settings translate="title" module="kartparadigm_storecredit">
+<title>Credits</title>
+<sort_order>0</sort_order>
+</settings>
+</children>
+</storecredit>
+<system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mycustom_section translate="title" module="kartparadigm_storecredit">
+                                        <title>My Custom Section</title>
+                                        <sort_order>100</sort_order>
+                                    </mycustom_section>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+</children>
+</admin>
+</resources>
+</acl>
+
+</config>
+

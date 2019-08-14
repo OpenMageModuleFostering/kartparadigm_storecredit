@@ -1,0 +1,14 @@
+<div>
+<?php
+Mage::log(Mage::getSingleton('core/session')->getMsg());
+if(Mage::getSingleton('core/session')->getMsg() == 1) :
+?>
+<h1> Refunded To StoreCredit </h1>
+<?php 
+Mage::getSingleton('core/session')->unsMsg(); 
+Mage::getSingleton('core/session')->unsTotal();
+?>
+<?php endif; ?>
+</div>
+
+

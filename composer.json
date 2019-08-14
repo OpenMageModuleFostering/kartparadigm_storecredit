@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Kartparadigm_StoreCredit",
+    "type": "magento-module",
+    "license": "OSL",
+    "homepage": "",
+    "description": "Maintaining Customer Credits",
+    "authors": [
+    {
+        "name": "Kartparadigm",
+        "email": "kartparadigm@gmail.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

@@ -1,0 +1,10 @@
+<?php
+
+$product = Mage::registry('product');
+$pid = $product->getId();
+$totalCredits = $this->displayCreditsOfProduct($pid);
+?>
+<div style="color: #CD5033;
+font: 13px/1.55 Arial,Helvetica,sans-serif;
+font-weight: bold;"><?php if($totalCredits > 0): ?>Credit Points : <?php echo $totalCredits; ?><?php endif; ?> </div>
+

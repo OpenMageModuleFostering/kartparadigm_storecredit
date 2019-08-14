@@ -1,0 +1,55 @@
+<?php if (Mage::helper('kartparadigm_storecredit')->getIsEnabled()): ?>
+<?php
+
+ if(Mage::getSingleton('customer/session')->isLoggedIn()) :
+     $customerData = Mage::getSingleton('customer/session')->getCustomer();
+ $id = $customerData->getId();
+
+$col2 = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('c_id',$id)->setOrder('t_id','desc')->addFieldToFilter('website1',Mage::app()->getWebsite()->getName())->setCurPage(1)->setPageSize(1);
+foreach($col2 as $col)
+$totalBalance = $col->getTotalCredits();
+?>
+<div style="border: solid 1px #DDD;margin-bottom: 2em;">
+<div> <h2 style="font-size: 14px;
+color: #E26703;
+font-weight: bold;
+margin-left: 1em;background-image: url(<?php echo $this->getSkinUrl('images/i_discount.gif') ?>);background-repeat: no-repeat;
+padding: 0px 0px 0px 21px;margin-top: 10px;text-transform: uppercase;">Customer Credits </h2>  </div>
+<div style="margin-left: 1em;
+line-height: 23px;
+padding-bottom: 1em;">
+<div style="font-weight: bold;"> Your Total Available Credits : <spam style="color: #1E7EC8"> <?php if($totalBalance > 0 ) 
+echo $totalBalance ; else echo "0";?></spam></div>
+<form action="<?php echo  Mage::getBaseUrl()?>storecredit/index/applyCredits" method="post">
+<label for="Credits"> Enter Credits To Use For Purchage </label> <br>
+<input type="text" name="Credits" id="Credits" style="width: 90%;
+font-size: 12px;" class="input-text required-entry" required="true" />
+
+<button type="submit" title="Apply Coupon" class="button" value="Apply Credits" style="margin-top: 10px;"><span style="border-color: #406A83;
+background: none repeat scroll 0% 0% #618499;"><span style="border-color: #406A83;
+background: none repeat scroll 0% 0% #618499;">Apply Credits</span></span></button>
+</form>
+<?php 
+
+$credits = Mage::getSingleton('core/session')->getCredits();
+if($credits){
+echo "<h4 style='color:orange; font-size: 11px;margin-top: 10px;'>".$credits."</h4>";
+echo "<h4 style='color:orange; font-size: 11px;margin-top: 10px;'><span style='font-size:12px;'>***</span> Credits Are Deducted After The Checkout </h4>";
+}
+Mage::getSingleton('core/session')->unsCredits();
+
+?>
+</div>
+</div>
+<?php else : ?>
+<div style="border: 1px solid #DDD;
+height: 3em;
+padding-top: 2em;
+padding-left: 2em;
+margin-bottom: 2em;">
+To Apply Store Credits Please<a href="<?php echo $this->getBaseUrl()?>customer/account/login">  Login  </a> 
+</div>
+ 
+<?php endif;  ?>
+ 
+<?php endif;  ?>

@@ -1,0 +1,39 @@
+<style>
+#blc{
+margin-bottom: 1em; 
+
+}
+</style>
+
+<div id="blc">
+<h2 style="font-size: 20px;
+font-weight: normal;
+border-bottom: 1px solid rgb(221, 221, 221);
+width: 100%;
+overflow: hidden;
+margin: 0px 0px 25px;"> Store Credits  </h2>
+
+<?php 
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+     $customerData = Mage::getSingleton('customer/session')->getCustomer();
+      $id = $customerData->getId();
+ }
+$col = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('c_id',$id)->getLastItem();
+
+?>
+<?php 
+$array2 = Mage::helper('kartparadigm_storecredit')->getCreditRates();
+$amt1 = ($array2['basevalue'] * $col->getTotalCredits()) / $array2['credits'];
+     $baseCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+    $currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+    if ($baseCurrencyCode != $currentCurrencyCode) {
+       $amt2 = Mage::helper('directory')->currencyConvert($amt1, $baseCurrencyCode, $currentCurrencyCode);
+    }
+    else{
+           $amt2 = $amt1;
+         }
+?>
+<div style="font-size : 17px;">Your Total Credits are : <em style="color: #000"><?php 
+$totalCredits = $col->getTotalCredits();    ?> <?php if($totalCredits > 0): echo $totalCredits; ?>(<?php  echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol()."".$amt2?>) <?php else : ?> <?php echo "0"; ?> <?php endif; ?></em></div>
+
+</div>

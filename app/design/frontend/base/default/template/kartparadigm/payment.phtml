@@ -1,0 +1,104 @@
+<?php if (Mage::helper('kartparadigm_storecredit')->getIsEnabled()): ?>
+<?php
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+     $customerData = Mage::getSingleton('customer/session')->getCustomer();
+ $id = $customerData->getId();
+
+$collection = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('c_id',$id)->addFieldToFilter('website1',Mage::app()->getWebsite()->getName())->getLastItem();
+$totalcredits = $collection->getTotalCredits();
+}
+?>
+<!-- -----------------Enable Or Disable The Storeview Select Option -------------------------------------------------- -->
+<script type="text/javascript">
+        function OnChangeCheckbox (checkbox) {
+            if (checkbox.checked) {
+                document.getElementById("enable").style.display = 'block';
+                document.getElementById('msg').innerHTML = "please enter less than " + document.getElementById('remaining').innerHTML + " Credits ";
+            }
+            else {
+                document.getElementById("enable").style.display = 'none';
+                 document.getElementById('msg').innerHTML = "Please Select The Checkbox For Apply Credits ";
+                document.getElementById('remaining').innerHTML = <?php echo $totalcredits ?>;
+                document.getElementById('credits').value = 0;
+                 //document.cookie = 'name='+ 0 ;
+//document.cookie = 'total='+<?php echo $totalcredits ?> ;              
+
+new Ajax.Request("<?php echo   $this->getUrl('kartparadigm_storecredit/index/update') ?>", {
+           method: 'Post',
+           parameters: {discount:0,total:<?php echo $totalcredits ?>},
+           onComplete: function(transport) {
+//alert('hi');
+               //window.location.reload(true);
+
+           }
+       }); 
+                }
+           
+        }
+
+function val(obj)
+{
+
+var x = document.getElementById('credits').value;
+var totalbalance = <?php echo $totalcredits ;?>;
+
+if( totalbalance >= x && x >= 0 ){
+//document.cookie = 'name='+x ;
+//document.cookie = 'total='+totalbalance ;
+new Ajax.Request("<?php echo   $this->getUrl('kartparadigm_storecredit/index/update') ?>", {
+           method: 'Post',
+           parameters: {discount:x,total:totalbalance},
+           onComplete: function(transport) {
+//alert('hi');
+               //window.location.reload(true);
+
+           }
+       });     
+document.getElementById('credits').value = x;
+document.getElementById('msg').innerHTML = "changed the credits to  " + x;
+//document.getElementById('remaining').innerHTML = totalbalance - x;
+
+}
+else{
+document.getElementById('remaining').innerHTML = totalbalance;
+document.getElementById('msg').innerHTML = "please enter less than " + totalbalance+ " and greater than 0 credits ";
+
+}
+
+}
+
+function displayButton(obj){
+
+
+document.getElementById('credits1').style.display = "block";
+
+
+}
+
+  </script>
+<!--  ----------------------- script ended --------------------------------------------------------------------------  -->
+
+
+<?php $session = Mage::getSingleton('checkout/session')->getCredits(); if(isset($session)) : ?> 
+<input type="checkbox"  name="storecredit" id="storecredit" onclick="OnChangeCheckbox (this)" checked="checked"  />
+<label for="storecredit"> Use Customer Credit To Checkout (Total Available Credits : <spam id="remaining"><?php echo $totalcredits; ?> </spam>) </label>
+<div id="msg" style="color: #1E7EC8"> Edit Credits To Apply More/Less than You Applaid Before </div> 
+<div id="enable">
+<div> Using Credits :<input type="textbox" name="credits" id="credits" value="<?php echo Mage::getSingleton('checkout/session')->getDiscount(); ?>"  onchange="displayButton(value)" /></div>
+<input type="button" name="credits1" onclick="val(this)" id="credits1" value="Apply Credits" style="display : none;"/>
+<?php else : ?>
+<input type="checkbox"  name="storecredit" id="storecredit" onclick="OnChangeCheckbox (this)" />
+<label for="storecredit"> Use Customer Credit To Checkout (Available Credits : <spam id="remaining"><?php echo $totalcredits ; ?> </spam> ) </label>
+<div id="msg" style="color: #1E7EC8"> Please Select The Checkbox For Apply Credits </div> 
+<div id="enable" style="display: none;">
+<div> Using Credits : <input type="textbox" name="credits" id="credits" value="0" /></div>
+<input type="button" name="credits1" onclick="val(this)" id="credits1" value="Apply Credits" />
+<?php endif; ?>
+</div>
+<div id="img">
+</div>
+
+
+
+<?php endif; ?>
+

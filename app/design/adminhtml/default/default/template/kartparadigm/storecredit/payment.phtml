@@ -1,0 +1,49 @@
+<?php if(Mage::getStoreConfigFlag('mycustom_section/mycustom_group2/field1')) : ?>
+<?php
+$id = Mage::getSingleton('adminhtml/session_quote')->getCustomerId();
+$collection = Mage::getModel('kartparadigm_storecredit/creditinfo')->getCollection()->addFieldToFilter('c_id',$id)->addFieldToFilter('website1','Main Website')->getLastItem();
+$totalcredits = $collection->getTotalCredits();
+?>
+<!-- -----------------Enable Or Disable The Storeview Select Option -------------------------------------------------- -->
+<script type="text/javascript">
+        function OnChangeCheckbox (checkbox) {
+            if (checkbox.checked) {
+                //alert('heee');
+ new Ajax.Request("<?php echo   $this->getUrl('kartparadigm_storecredit/adminhtml_credits/usecredits') ?>", {
+           method: 'Post',
+           onComplete: function(result) {
+
+ window.location.reload(true);
+
+           }
+       });          
+            }
+            else {
+               new Ajax.Request("<?php echo   $this->getUrl('kartparadigm_storecredit/adminhtml_credits/unselect') ?>", {
+           method: 'Post',
+           onComplete: function(transport) {
+
+               window.location.reload(true);
+
+           }
+       });     
+                }
+           
+        }
+
+  </script>
+<!--  ----------------------- script ended --------------------------------------------------------------------------  -->
+
+
+<?php $session = Mage::getSingleton('core/session')->getBalance(); if(isset($session)) : ?> 
+<input type="checkbox"  name="storecredit" id="storecredit" onclick="OnChangeCheckbox (this)" checked="checked"  />
+<label for="storecredit"> Use Store Credit <spam id="remaining">(<?php echo $session; ?> </spam> available) </label> 
+<?php else : ?>
+<input type="checkbox"  name="storecredit" id="storecredit" onclick="OnChangeCheckbox (this)" />
+<label for="storecredit"> Use Store Credit ( <spam id="remaining"><?php echo $totalcredits;?> </spam> available) </label>
+<?php endif; ?>
+</div>
+<div id="img">
+</div>
+
+<?php endif; ?>

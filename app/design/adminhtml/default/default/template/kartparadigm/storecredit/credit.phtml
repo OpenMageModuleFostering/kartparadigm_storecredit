@@ -1,0 +1,38 @@
+<!-- -----------------Enable Or Disable The Textfield Option -------------------------------------------------- -->
+<?php  if(Mage::getStoreConfigFlag('mycustom_section/mycustom_group2/field1')) : ?>
+<script type="text/javascript">
+        function OnChangeCheckbox (checkbox) {
+            if (checkbox.checked) {
+                document.getElementById("returncredits").disabled = false;
+            }
+            else {
+                document.getElementById("returncredits").disabled = true;
+            }
+        }
+function check(obj)
+{
+var amount = obj.value;
+if(amount < 0)
+{
+alert("Store Credits Must be Positive");
+
+}
+}
+    </script>
+<!------------------------------------------------------------------------------------------------------------- -->
+<?php $creditmemo = $this->getSource();
+
+if($creditmemo->getDiscountDescription() == "Store Credits"){
+Mage::log($creditmemo->getDiscountAmount());
+$total = $creditmemo->getGrandTotal() - ($creditmemo->getDiscountAmount());
+}
+else{
+$total = $creditmemo->getGrandTotal();
+}?>
+
+<label class="normal" for="return_credits"><?php echo Mage::helper('sales')->__('Refund To Store Credit') ?></label>
+              <input id="return_credits" name="creditmemo[return_credits]" value="1" type="checkbox" onclick="OnChangeCheckbox (this)" />
+              <input type="text" value="<?php echo $total;?>" name="creditmemo[returncredits]" id="returncredits" style="width:11%" disabled="disabled" onchange="check(this)"/>
+              <label for="creditmemo[returncredits]" id="label">  </label>
+
+<?php endif; ?>

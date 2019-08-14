@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+<adminhtml_customer_edit>
+<reference name="left">
+<reference name="customer_edit_tabs">
+<block type="kartparadigm_storecredit/adminhtml_customer_edit_tab_credits" name="tab_credits_main"
+template="kartparadigm/storecredit/customer/main.phtml">
+<block
+type="kartparadigm_storecredit/adminhtml_customer_edit_tab_credits_list" name="tab_credits_list" as="credits_list" />
+<block
+type="kartparadigm_storecredit/adminhtml_customer_edit_tab_credits_list1" name="tab_credits_list1" as="credits_list1" />
+</block>
+<action method="addTab">
+<name>kartparadigm_storecredit</name>
+<block>tab_credits_main</block>
+</action>
+</reference>
+</reference>
+</adminhtml_customer_edit>
+
+<adminhtml_credits_index>
+<reference name="content">
+<block type="kartparadigm_storecredit/adminhtml_registries" name="registries" />
+</reference>
+</adminhtml_credits_index>
+
+<adminhtml_credits_customer>
+<reference name="content">
+<block type="kartparadigm_storecredit/adminhtml_registries1" name="registries1" />
+</reference>
+</adminhtml_credits_customer>
+
+<adminhtml_sales_order_creditmemo_new>
+    <reference name="order_items">   
+        <block type="adminhtml/sales_order_creditmemo_create_items" name="storecredit" as="storecredit" template="kartparadigm/storecredit/credit.phtml" />
+      </reference>
+</adminhtml_sales_order_creditmemo_new>
+
+<adminhtml_sales_order_creditmemo_updateqty>
+<reference name="order_items">   
+        <block type="adminhtml/sales_order_creditmemo_create_items" name="storecredit" as="storecredit" template="kartparadigm/storecredit/credit.phtml" />
+      </reference>
+</adminhtml_sales_order_creditmemo_updateqty>
+
+<adminhtml_sales_order_create_index>
+<reference name="billing_method">
+ <block type="core/template" name="pay1" as="pay1" template="kartparadigm/storecredit/payment.phtml" />
+ </reference>
+</adminhtml_sales_order_create_index>
+
+<adminhtml_sales_order_create_load_block_billing_method>
+<reference name="billing_method">
+ <block type="core/template" name="pay1" as="pay1" template="kartparadigm/storecredit/payment.phtml" />
+ </reference>
+</adminhtml_sales_order_create_load_block_billing_method>
+
+<adminhtml_customer_sendcredits>
+<reference name="content">
+<block type="kartparadigm_storecredit/adminhtml_registries_edit" name="edit_registry_tabs" />
+</reference>
+</adminhtml_customer_sendcredits>
+
+<adminhtml_credits_showtransaction module="kartparadigm_storecredit">
+<reference name="content">
+  <block type="kartparadigm_storecredit/adminhtml_registries1_edit" name="transaction" as="transaction" />
+</reference>
+</adminhtml_credits_showtransaction>
+
+<adminhtml_promo_catalog_edit>
+   <reference name="promo_catalog_edit_tabs">
+    <block type="kartparadigm_storecredit/adminhtml_promo_catalog_edit_tab_actions" name="promo_catalog_edit_tab_actions1"/>
+                 <action method="addTab" ifconfig="mycustom_section/mycustom_group2/field1"><name>actions_section1</name><block>kartparadigm_storecredit/adminhtml_promo_catalog_edit_tab_actions</block></action>
+   </reference>
+</adminhtml_promo_catalog_edit>
+</layout>
